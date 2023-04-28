@@ -15,7 +15,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <?php 
-                    if(!isset($_SESSION)&&array_key_exists('user',$_SESSION)):?>
+                    if(array_key_exists('user',$_SESSION)):?>
                         <li class="nav-item">
                             <a class="nav-link" href="/coursPHP/GestionnaireContact/logOutController.php">Se deconnecter</a>
                         </li>
