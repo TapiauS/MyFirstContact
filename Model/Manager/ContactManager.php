@@ -17,7 +17,7 @@ class ContactManager{
             $pst->execute();
             $retour=[];
             while($row=$pst->fetch()){
-                $contact=new Contact($row["lastname"],$row["firstname"],$row["mail"],$row["phone"],DateTime::createFromFormat('Y-m-d H:i:s',$row["birthdate"]),$row["filepath"],intval($row["id"]));
+                $contact=new Contact($row["lastname"],$row["firstname"],$row["mail"],$row["phone"],Date::createFromFormat('Y-m-d H:i:s',$row["birthdate"]),$row["filepath"],intval($row["id"]));
                 array_push($retour,$contact);
             }
             $_SESSION["contacts"]=$retour;
@@ -27,7 +27,7 @@ class ContactManager{
         }
     }
 
-    public static function addContact(?string $lastname,?string $firstname,string $mail,?string $phone,?DateTime $birthDate,?string $filepath):?Contact{
+    public static function addContact(?string $lastname,?string $firstname,string $mail,?string $phone,?Date $birthDate,?string $filepath):?Contact{
         try{
             $query="INSERT INTO contacts(lastname,firstname,mail,phone,birthdate,filepath) VALUES (:lastname,:firstname,:mail,:mail,:birthdate,:filepath) RETURNING id";
             $pst=self::$connect->prepare($query);

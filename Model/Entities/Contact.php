@@ -9,14 +9,14 @@ class Contact{
 
     private ?String $phone;
 
-    private ?DateTime $birthDate;
+    private ?Date $birthDate;
 
     private ?String $picturePath;
 
     private int $id;
 
     public function __construct(?String $lastName,?String $firstName,String $email,
-                                ?String $phone,?DateTime $birthDate,?String $picturePath,int $id){
+                                ?String $phone,?Date $birthDate,?String $picturePath,int $id){
         $this->setLastName($lastName);
         $this->setFirstName($firstName);
         $this->setEmail($email);
@@ -101,9 +101,9 @@ class Contact{
     /**
      * Get the value of birthDate
      *
-     * @return ?DateTime
+     * @return ?Date
      */
-    public function getBirthDate(): ?DateTime
+    public function getBirthDate(): ?Date
     {
         return $this->birthDate;
     }
@@ -111,11 +111,11 @@ class Contact{
     /**
      * Set the value of birthDate
      *
-     * @param ?DateTime $birthDate
+     * @param ?Date $birthDate
      *
      * @return self
      */
-    public function setBirthDate(?DateTime $birthDate): self
+    public function setBirthDate(?Date $birthDate): self
     {
         $this->birthDate = $birthDate;
 

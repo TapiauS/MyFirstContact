@@ -1,1 +1,1 @@
-<div>Bienvenu</div>
+<div>Bienvenue</div>
