@@ -2,6 +2,6 @@
 require 'Partial/header.php';
 require 'Partial/logInform.php';
 ?>
-<script src="Js/logInForm.js">
+<script src="View/Js/logInForm.js">
 <?php
 require 'Partial/footer.php';

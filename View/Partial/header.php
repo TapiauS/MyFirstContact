@@ -1,4 +1,5 @@
 <?php
+require_once 'Model/Entities/Contact.php';
 if(!isset($_SESSION))
     session_start();
 ?>
@@ -20,10 +21,13 @@ if(!isset($_SESSION))
                     <?php 
                     if(array_key_exists('user',$_SESSION)):?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/coursPHP/GestionnaireContact/logOutController.php">Se deconnecter</a>
+                            <button id="disconnect">Se deconnecter</button>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/coursPHP/GestionnaireContact/newContactController.php">Nouveau Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/coursPHP/GestionnaireContact/allContactController.php">Tous les contacts</a>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">

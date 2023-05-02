@@ -9,11 +9,11 @@ if(isset($_POST)&&!empty($_POST)):
     $user=UserManager::connectUser(PSEUDO,PASSWORD);
     if(!is_null($user)){
         $_SESSION["user"]=$user;
-        header("Location:View/home.php");
+        header("Location:homeController.php");
     }
     else
     {
-        header("Location:View/logFailedView.php");
+        header("Location:logfailedController.php");
         exit();
     }
 endif;

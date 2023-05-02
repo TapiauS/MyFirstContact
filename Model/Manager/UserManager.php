@@ -1,8 +1,9 @@
 <?php
 
-require 'Connect.php';
-require './Model/Entities/User.php';
-require 'ContactManager.php';
+require_once 'Model/Manager/Connect.php';
+require_once 'Model/Entities/User.php';
+require_once 'Model/Entities/Contact.php';
+require_once 'Model/Manager/ContactManager.php';
 
 class UserManager{
 
@@ -39,7 +40,6 @@ class UserManager{
             $id=null;
             if($row=$stmt->fetch()){
                 $id=$row["id"];
-                ContactManager::getAllContacts($id);
             }
             return new User($pseudo,$password,$id);
         }
@@ -60,10 +60,13 @@ class UserManager{
             $stmt->execute();
             if($row=$stmt->fetch())
             {
-                if(password_verify($password,$row["password"]))
-                    return new User($pseudo,$password,$row["id"]);
-                else
+                if(password_verify($password,$row["password"])):
+                    $user=new User($pseudo,$password,$row["id"]);
+                    ContactManager::getAllContacts($row["id"]);
+                    return $user;
+                else:
                     return null;   
+                endif;    
             } 
             else
                 return null;

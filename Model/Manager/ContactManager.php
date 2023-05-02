@@ -1,10 +1,13 @@
 <?php
 
+require_once 'Model/Manager/Connect.php';
+require_once 'Model/Entities/User.php';
+
 class ContactManager{
     private static ?PDO $connect=null;
 
     public static function init(){
-        if(!is_null(self::$connect))
+        if(is_null(self::$connect))
             self::$connect=Connect::getInstance()->getConnexion();
     }
 
@@ -12,12 +15,16 @@ class ContactManager{
     public static function getAllContacts(int $userid){
         try{
             $query="SELECT * FROM contacts WHERE id_user=?";
+            self::init();
             $pst=self::$connect->prepare($query);
             $pst->bindValue(1,$userid,PDO::PARAM_STR);
             $pst->execute();
             $retour=[];
             while($row=$pst->fetch()){
-                $contact=new Contact($row["lastname"],$row["firstname"],$row["mail"],$row["phone"],Date::createFromFormat('Y-m-d H:i:s',$row["birthdate"]),$row["filepath"],intval($row["id"]));
+                if(!is_null($row["birthdate"]))
+                    $contact=new Contact($row["lastname"],$row["firstname"],$row["email"],$row["phone"],DateTime::createFromFormat('Y-m-d',$row["birthdate"]),$row["picture_path"],intval($row["id"]));
+                else
+                    $contact=new Contact($row["lastname"],$row["firstname"],$row["email"],$row["phone"],null,$row["picture_path"],intval($row["id"]));
                 array_push($retour,$contact);
             }
             $_SESSION["contacts"]=$retour;
@@ -27,9 +34,10 @@ class ContactManager{
         }
     }
 
-    public static function addContact(?string $lastname,?string $firstname,string $mail,?string $phone,?Date $birthDate,?string $filepath):?Contact{
+    public static function addContact(?string $lastname,?string $firstname,string $mail,?string $phone,?DateTime $birthDate,?string $filepath):?Contact{
         try{
-            $query="INSERT INTO contacts(lastname,firstname,mail,phone,birthdate,filepath) VALUES (:lastname,:firstname,:mail,:mail,:birthdate,:filepath) RETURNING id";
+            self::init();
+            $query="INSERT INTO contacts(lastname,firstname,email,phone,birthdate,picture_path,id_user) VALUES (:lastname,:firstname,:mail,:phone,:birthday,:filepath,:iduser) RETURNING id";
             $pst=self::$connect->prepare($query);
             $pst->bindValue("lastname",$lastname,PDO::PARAM_STR);
             $pst->bindValue("firstname",$firstname,PDO::PARAM_STR);
@@ -37,16 +45,24 @@ class ContactManager{
             $pst->bindValue("phone",$phone,PDO::PARAM_STR);
             $pst->bindValue("birthday",$birthDate);
             $pst->bindValue("filepath",$filepath,PDO::PARAM_STR);
+            $user=$_SESSION["user"];
+            var_dump($user);
+            $pst->bindValue("iduser",$user->getId());
             $pst->execute();
             if($row=$pst->fetch()){
                 $contact=new Contact($lastname,$firstname,$mail,$phone,$birthDate,$filepath,$row["id"]);
                 array_push($_SESSION["contacts"],$contact);
                 return $contact;
             }
+            else
+                return null;
         }
         catch(PDOException $pdoe){
-            if($pdoe->getCode()===22000)
-                return null;
+            var_dump($pdoe);
+            if($pdoe->getCode()===22000):
+                var_dump($pdoe);
+            endif;
+            return null;
         }
     }
 }

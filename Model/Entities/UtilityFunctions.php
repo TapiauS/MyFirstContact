@@ -1,7 +1,10 @@
 <?php
 
-function sanitize($text){
-    return(htmlspecialchars(trim($text)));
+function sanitize(?String $text):String{
+    if(!is_null($text))
+        return(htmlspecialchars(trim($text)));
+    else
+        return "";
 }
 
 

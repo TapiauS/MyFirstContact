@@ -1,6 +1,6 @@
 <?php
 
-class Contact{
+class Contact implements JsonSerializable{
     private ?String $lastName;
 
     private ?String $firstName;
@@ -9,14 +9,14 @@ class Contact{
 
     private ?String $phone;
 
-    private ?Date $birthDate;
+    private ?DateTime $birthDate;
 
     private ?String $picturePath;
 
     private int $id;
 
     public function __construct(?String $lastName,?String $firstName,String $email,
-                                ?String $phone,?Date $birthDate,?String $picturePath,int $id){
+                                ?String $phone,?DateTime $birthDate,?String $picturePath,int $id){
         $this->setLastName($lastName);
         $this->setFirstName($firstName);
         $this->setEmail($email);
@@ -103,7 +103,7 @@ class Contact{
      *
      * @return ?Date
      */
-    public function getBirthDate(): ?Date
+    public function getBirthDate(): ?DateTime
     {
         return $this->birthDate;
     }
@@ -111,11 +111,11 @@ class Contact{
     /**
      * Set the value of birthDate
      *
-     * @param ?Date $birthDate
+     * @param ?DateTime $birthDate
      *
      * @return self
      */
-    public function setBirthDate(?Date $birthDate): self
+    public function setBirthDate(?DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
 
@@ -192,5 +192,18 @@ class Contact{
         $this->id = $id;
 
         return $this;
+    }
+
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize() {
+        return [
+            'lastname' => $this->lastName,
+            'firstname' => $this->firstName,
+            'email'=>$this->email,
+            'phone'=>$this->phone,
+            'birthday'=>$this->birthDate,
+            'picture'=>$this->picturePath,
+            'id'=>$this->id
+        ];
     }
 }
