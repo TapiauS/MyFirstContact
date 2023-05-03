@@ -1,8 +1,4 @@
 <?php
-
-require_once 'Model/Manager/Connect.php';
-require_once 'Model/Entities/User.php';
-
 class ContactManager{
     private static ?PDO $connect=null;
 
@@ -43,7 +39,10 @@ class ContactManager{
             $pst->bindValue("firstname",$firstname,PDO::PARAM_STR);
             $pst->bindValue("mail",$mail,PDO::PARAM_STR);
             $pst->bindValue("phone",$phone,PDO::PARAM_STR);
-            $pst->bindValue("birthday",$birthDate);
+            if(!is_null($birthDate))
+                $pst->bindValue("birthday",$birthDate->format('y-m-d'),PDO::PARAM_STR);
+            else
+                $pst->bindValue("birthday",null);
             $pst->bindValue("filepath",$filepath,PDO::PARAM_STR);
             $user=$_SESSION["user"];
             var_dump($user);
@@ -64,5 +63,36 @@ class ContactManager{
             endif;
             return null;
         }
+    }
+
+    public static function removeContact(?Contact $contact){
+        try{
+            self::init();
+            $query="DELETE FROM contacts WHERE id=:id";
+            $pst=self::$connect->prepare($query);
+            $pst->bindValue('id',$contact->getId());
+            $pst->execute();
+        }
+        catch(PDOException $pdoe){
+
+        }
+    }
+
+    public static function updateContact(?string $lastname,?string $firstname,string $mail,?string $phone,?DateTime $birthDate,?string $filepath,int $id){
+        $query="UPDATE contacts SET lastname=:lastname,firstname=:firstname,email=:mail,phone=:phone,birthdate=:birthday,picture_path=:filepath,id_user=:iduser WHERE id=:id";
+        $pst=self::$connect->prepare($query);
+            $pst->bindValue("lastname",$lastname,PDO::PARAM_STR);
+            $pst->bindValue("firstname",$firstname,PDO::PARAM_STR);
+            $pst->bindValue("mail",$mail,PDO::PARAM_STR);
+            $pst->bindValue("phone",$phone,PDO::PARAM_STR);
+            if(!is_null($birthDate))
+                $pst->bindValue("birthday",$birthDate->format('y-m-d'),PDO::PARAM_STR);
+            else
+                $pst->bindValue("birthday",null);
+            $pst->bindValue("filepath",$filepath,PDO::PARAM_STR);
+            $user=$_SESSION["user"];
+            $pst->bindValue("iduser",$user->getId());
+            $pst->bindValue("id",$id);
+            $pst->execute();
     }
 }

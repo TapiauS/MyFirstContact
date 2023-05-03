@@ -1,9 +1,5 @@
 <?php
 
-require_once 'Model/Manager/Connect.php';
-require_once 'Model/Entities/User.php';
-require_once 'Model/Entities/Contact.php';
-require_once 'Model/Manager/ContactManager.php';
 
 class UserManager{
 

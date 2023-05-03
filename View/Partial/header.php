@@ -1,5 +1,4 @@
 <?php
-require_once 'Model/Entities/Contact.php';
 if(!isset($_SESSION))
     session_start();
 ?>
@@ -16,30 +15,33 @@ if(!isset($_SESSION))
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <?php 
-                    if(array_key_exists('user',$_SESSION)):?>
-                        <li class="nav-item">
-                            <button id="disconnect">Se deconnecter</button>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/coursPHP/GestionnaireContact/newContactController.php">Nouveau Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/coursPHP/GestionnaireContact/allContactController.php">Tous les contacts</a>
-                        </li>
-                    <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/coursPHP/GestionnaireContact/logInController.php">Se Connecter</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/coursPHP/GestionnaireContact/signInController.php">Creer un compte</a>
-                        </li>
-                    <?php   
-                    endif;
-                    ?>
-                </ul>
+                    <ul class="navbar-nav">
+                        <?php 
+                        if(array_key_exists('user',$_SESSION)):?>
+                            <li class="nav-item">
+                                <button id="disconnect">Se deconnecter</button>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/coursPHP/GestionnaireContact/index.php?target=newcontact">Nouveau Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/coursPHP/GestionnaireContact/index.php?target=allcontact">Tous les contacts</a>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/coursPHP/GestionnaireContact/index.php?target=connect">Se Connecter</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/coursPHP/GestionnaireContact/index.php?target=signin">Creer un compte</a>
+                            </li>
+                        <?php   
+                        endif;
+                        ?>
+                    </ul>
                 </div>
             </div>
         </nav>
