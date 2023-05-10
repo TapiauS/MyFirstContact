@@ -30,6 +30,5 @@ class Connect{
 
 }
 
-$connexiontest=Connect::getInstance()->getConnexion();
 
 

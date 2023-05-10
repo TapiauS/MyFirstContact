@@ -6,6 +6,7 @@
     <input type="tel" name="phonenumber" id="phonenumber" >
     <input type="date" name="birthdate" placeholder="Date de Naissance" id="birthdate">
     <label for="picture">Image de profil</label>
+    <div id="picturedisplay"></div>
     <input type="file" name="picture" id="picture">
-    <button type="submit" name="submit" id="submit">Valider</button>
+    <button type="submit" id="submit">Valider</button>
 </form>

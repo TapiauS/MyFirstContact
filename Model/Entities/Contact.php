@@ -141,15 +141,7 @@ class Contact implements JsonSerializable{
      */
     public function setPicturePath(?String $picturePath): self
     {
-        if(!is_null($picturePath)):
-            $file_name = $picturePath;
-            $extension = pathinfo($file_name, PATHINFO_EXTENSION); 
-            $file_name_without_extension = pathinfo($file_name, PATHINFO_FILENAME); 
-            $new_file_name = $file_name_without_extension .$this->getId().".".$extension;
-            $this->picturePath = "$new_file_name";
-        else:
-            $this->picturePath=null;
-        endif;
+        $this->picturePath=$picturePath;
         return $this;
     }
 

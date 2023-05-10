@@ -79,20 +79,21 @@ class ContactManager{
     }
 
     public static function updateContact(?string $lastname,?string $firstname,string $mail,?string $phone,?DateTime $birthDate,?string $filepath,int $id){
+        self::init();
         $query="UPDATE contacts SET lastname=:lastname,firstname=:firstname,email=:mail,phone=:phone,birthdate=:birthday,picture_path=:filepath,id_user=:iduser WHERE id=:id";
         $pst=self::$connect->prepare($query);
-            $pst->bindValue("lastname",$lastname,PDO::PARAM_STR);
-            $pst->bindValue("firstname",$firstname,PDO::PARAM_STR);
-            $pst->bindValue("mail",$mail,PDO::PARAM_STR);
-            $pst->bindValue("phone",$phone,PDO::PARAM_STR);
-            if(!is_null($birthDate))
-                $pst->bindValue("birthday",$birthDate->format('y-m-d'),PDO::PARAM_STR);
-            else
-                $pst->bindValue("birthday",null);
-            $pst->bindValue("filepath",$filepath,PDO::PARAM_STR);
-            $user=$_SESSION["user"];
-            $pst->bindValue("iduser",$user->getId());
-            $pst->bindValue("id",$id);
-            $pst->execute();
+        $pst->bindValue("lastname",$lastname,PDO::PARAM_STR);
+        $pst->bindValue("firstname",$firstname,PDO::PARAM_STR);
+        $pst->bindValue("mail",$mail,PDO::PARAM_STR);
+        $pst->bindValue("phone",$phone,PDO::PARAM_STR);
+        if(!is_null($birthDate))
+            $pst->bindValue("birthday",$birthDate->format('y-m-d'),PDO::PARAM_STR);
+        else
+            $pst->bindValue("birthday",null);
+        $pst->bindValue("filepath",$filepath,PDO::PARAM_STR);
+        $user=$_SESSION["user"];
+        $pst->bindValue("iduser",$user->getId());
+        $pst->bindValue("id",$id);
+        $pst->execute();
     }
 }
